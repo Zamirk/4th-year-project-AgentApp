@@ -198,6 +198,7 @@
     <Compile Include="2ViewModel\LoginViewModel.cs" />
     <Compile Include="2ViewModel\RelayCommand.cs" />
     <Compile Include="2ViewModel\ViewModelBase.cs" />
+    <Compile Include="3Model\CommandDatapoint.cs" />
     <Compile Include="3Model\Login.cs" />
     <Compile Include="1View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -213,6 +214,7 @@
     <Compile Include="4Services\Services\HttpUtility.cs" />
     <Compile Include="4Services\Services\SHA.cs" />
     <Compile Include="4Services\Services\TimeSpanExtension.cs" />
+    <Compile Include="2ViewModel\CommandType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
