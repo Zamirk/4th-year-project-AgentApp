@@ -14,6 +14,8 @@ using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Agent;
+using Microsoft.ServiceBus.Messaging;
 using RAT.ZTry;
 
 namespace MyDeviceTest
@@ -23,24 +25,24 @@ namespace MyDeviceTest
         static DeviceClient deviceClient;
         private BackgroundWorker worker;
         private bool kill = false;
-        private static string iotHubUri = "ManageIoT.azure-devices.net";
-        static string deviceKey = "lH5w0GYV8xxACr7lqeB//x9uu0nJVHhC7tRVFr+HF2I=";
-        //lH5w0GYV8xxACr7lqeB//x9uu0nJVHhC7tRVFr+HF2I=
-        //LFqCq06kB8m/7abwakvP1tBjo8zLWATyN3soGLogOew= device2
+        private static string iotHubUri = "ManageIoT2.azure-devices.net";
+        static string deviceKey = "z0InlHLvCuQ7w6H5d0eaC+puTcB9+/Dsi1W/HdlSY4k=";
+        private string device = "Device_1";
+
         PerformanceCounters information;
         private TelemetryDatapoint telemetry;
         private static CommandDatapoint command;
         private static string newString;
         //Sending messages to the IoT hub
+
         private async Task SendDeviceToCloudMessagesAsync()
         {
             information = new PerformanceCounters();
-
             //Loop for sending messages
             while (!kill)
             {
                 //Creating a telemetry object, setting data, sending over Iot Azure
-                telemetry = new TelemetryDatapoint("Device_1");
+                telemetry = new TelemetryDatapoint(device);
                 //Cpu
                 telemetry.Cpu = information.GetCPU();
                 telemetry.Cpu2 = information.GetFrequency();
@@ -80,14 +82,14 @@ namespace MyDeviceTest
                 //Printing out message
                 Console.WriteLine(messageString);
                 
-                Task.Delay(550).Wait();
+                Task.Delay(650).Wait();
             }
         }
 
-        private static async void ReceiveC2dAsync()
+        private async void ReceiveC2dAsync()
         {
             Console.WriteLine("\nReceiving cloud to device messages from service");
-            while (true)
+            while (!kill)
             {
                 Message receivedMessage = await deviceClient.ReceiveAsync();
                 if (receivedMessage == null) continue;
@@ -174,8 +176,10 @@ namespace MyDeviceTest
                 }
             }
         }
+
         public async void stop()
         {
+            ((MainWindow)System.Windows.Application.Current.MainWindow).list.IsEnabled = true;
             kill = true;
             worker.Dispose();
             await deviceClient.CloseAsync();
@@ -184,9 +188,15 @@ namespace MyDeviceTest
 
         public async void Test()
         {
+            string a =  ((MainWindow) System.Windows.Application.Current.MainWindow).list.SelectedItem.ToString();
+            ((MainWindow) System.Windows.Application.Current.MainWindow).list.IsEnabled = false;
+            device = a.Replace("System.Windows.Controls.ListBoxItem: ", "");
+
+            System.Diagnostics.Debug.WriteLine(""+device);
             kill = false;
             Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("Device_1", deviceKey));
+            deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(device, deviceKey));
+
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_send;

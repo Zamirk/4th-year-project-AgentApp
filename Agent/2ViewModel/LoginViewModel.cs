@@ -8,6 +8,7 @@ using System.Windows.Input;
 using EasyWpfLoginNavigateExample.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using EasyWpfLoginNavigateExample.Helpers;
 using MyDeviceTest;
@@ -68,7 +69,6 @@ namespace Agent._2ViewModel
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerAsync();
-
         }
 
         private void DoLogout(object obj)
@@ -120,9 +120,7 @@ namespace Agent._2ViewModel
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(hideElements, DispatcherPriority.ContextIdle);
-            //TODO Login
-            //LoginValidate();
+            LoginValidate();
         }
 
         public void hideElements()
@@ -140,6 +138,8 @@ namespace Agent._2ViewModel
             ((MainWindow) System.Windows.Application.Current.MainWindow).button3.Visibility = Visibility.Visible;
             ((MainWindow) System.Windows.Application.Current.MainWindow).label3.Visibility = Visibility.Visible;
             ((MainWindow) System.Windows.Application.Current.MainWindow).label4.Visibility = Visibility.Visible;
+            ((MainWindow) System.Windows.Application.Current.MainWindow).list.Visibility = Visibility.Visible;
+
         }
 
         public void Logout()
@@ -154,21 +154,27 @@ namespace Agent._2ViewModel
             ((MainWindow) System.Windows.Application.Current.MainWindow).button3.Visibility = Visibility.Collapsed;
             ((MainWindow) System.Windows.Application.Current.MainWindow).label3.Visibility = Visibility.Collapsed;
             ((MainWindow) System.Windows.Application.Current.MainWindow).label4.Visibility = Visibility.Collapsed;
+            ((MainWindow) System.Windows.Application.Current.MainWindow).list.Visibility = Visibility.Collapsed;
 
         }
 
         //Checks Login, Changes screen if found
         async void LoginValidate(){
-
-        List <Login> logins = await azureService.GetLogin(UserName, password);
-            if (logins[0].Username.Equals(UserName) && logins[0].Password.Equals(password))
+            if (await azureService.GetLogin(UserName, password))
             {
-                System.Diagnostics.Debug.WriteLine("\n-----Database."+UserName + "Pass" + password);
                 //Screen Navigation
+                Application.Current.Dispatcher.Invoke(hideElements, DispatcherPriority.ContextIdle);
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("Incorrect Login");
+                string messageBoxText = "Login failed";
+                string caption = "Word Processor";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+    
+                // Display message box
+            MessageBox.Show(messageBoxText, caption, button, icon);
             }
         }
     }

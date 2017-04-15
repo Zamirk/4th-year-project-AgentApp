@@ -11,21 +11,36 @@
         ResizeMode="NoResize"
         Title="Agent App" Height="386.903" Width="342.019"
         xmlns:tb="http://www.hardcodet.net/taskbar"   >
-    
+
     <Grid Margin="0,0,3.333,0.333">
-        <TextBox x:Name="textBox" Text="{Binding Path=UserName}"  HorizontalAlignment="Left" Height="28" Margin="181,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="181,154,0,0" VerticalAlignment="Top" Height="23" Width="93"/>
+        <TextBox x:Name="textBox" Text="{Binding Path=UserName}"  HorizontalAlignment="Left" Height="25" Margin="181,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="181,154,0,0" VerticalAlignment="Top" Height="25" Width="90
+"/>
 
-        <Button x:Name="button" Content="Login" Command="{Binding Path=LoginCommand}" CommandParameter="{Binding ElementName=passwordBox}"  HorizontalAlignment="Left" Margin="64,229,0,0" VerticalAlignment="Top" Width="210" Height="32"/>
+        <Button x:Name="button" Content="Login" Command="{Binding Path=LoginCommand}" CommandParameter="{Binding ElementName=passwordBox}"  HorizontalAlignment="Left" Margin="108,215,0,0" VerticalAlignment="Top" Width="119" Height="26"/>
 
-        <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="64,118,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.36,-0.038"/>
-        <Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="64,154,0,0" VerticalAlignment="Top" Height="23" Width="65"/>
+        <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="66,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.36,-0.038"/>
+        <Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="66,156,0,0" VerticalAlignment="Top" Height="23" Width="65"/>
 
         <Button x:Name="button2" Content="Off" Visibility="Collapsed" Command="{Binding Path=MonitorCommand}" HorizontalAlignment="Left" Margin="181,112,0,0" VerticalAlignment="Top" Width="93" Height="32"/>
         <Label x:Name="label3" Content="Monitoring" Visibility="Collapsed" HorizontalAlignment="Left" Margin="64,112,0,0" VerticalAlignment="Top" Height="32" Width="87"/>
         <Label x:Name="label4" Content=""  HorizontalAlignment="Left" Margin="181,0,0,0" VerticalAlignment="Top" Height="32" Width="87"/>
         <Button x:Name="button3" Content="Logout" Visibility="Collapsed" Command="{Binding Path=LogOutCommand}" HorizontalAlignment="Left" Margin="268,10,0,0" VerticalAlignment="Top" Width="64" Height="22"/>
 
+        <Grid Margin="10" >
+            <ListBox x:Name="list" Height="151" Visibility="Collapsed"  Margin="0,0,0.333,9.667" VerticalAlignment="Bottom">
+                <ListBoxItem>Device_1</ListBoxItem>
+                <ListBoxItem>Device_2</ListBoxItem>
+                <ListBoxItem>Device_3</ListBoxItem>
+                <ListBoxItem>Device_4</ListBoxItem>
+                <ListBoxItem>Device_5</ListBoxItem>
+                <ListBoxItem>Device_6</ListBoxItem>
+                <ListBoxItem>Device_7</ListBoxItem>
+                <ListBoxItem>Device_8</ListBoxItem>
+                <ListBoxItem>Device_9</ListBoxItem>
+                <ListBoxItem>Device_10</ListBoxItem>
 
-    </Grid> 
+            </ListBox>
+        </Grid>
+    </Grid>
 </Window>

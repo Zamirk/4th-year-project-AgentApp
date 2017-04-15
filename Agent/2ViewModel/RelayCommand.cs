@@ -4,10 +4,6 @@ using System.Diagnostics;
 
 namespace EasyWpfLoginNavigateExample.Helpers
 {
-    /// <summary>
-    /// This RelayCommand is taken from MSDN magazine
-    /// http://msdn.microsoft.com/en-us/magazine/dd419663.aspx#id0090030
-    /// </summary>
 
     public class RelayCommand : ICommand
     {

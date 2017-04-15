@@ -30,7 +30,7 @@ namespace Agent
         {
             InitializeComponent();
             base.DataContext = _viewModel;
-
+            ((MainWindow) System.Windows.Application.Current.MainWindow).list.SelectionMode = SelectionMode.Single;
         }
 
     }

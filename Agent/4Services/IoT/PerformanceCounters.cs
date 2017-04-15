@@ -35,12 +35,21 @@ namespace Agent._4Services
 
         private PerformanceCounterCategory performanceCounterCategory;
         private string instance;
+        private string instance2;
+
         private PerformanceCounter downloadRate;
         private PerformanceCounter uploadRate;
         private PerformanceCounter bandwidth;
         private PerformanceCounter packetsReceived;
         private PerformanceCounter packetsSent;
         private PerformanceCounter packets;
+
+        private PerformanceCounter downloadRate2;
+        private PerformanceCounter uploadRate2;
+        private PerformanceCounter bandwidth2;
+        private PerformanceCounter packetsReceived2;
+        private PerformanceCounter packetsSent2;
+        private PerformanceCounter packets2;
 
         Process[] listOfProcesses = Process.GetProcesses();
         public PerformanceCounters()
@@ -71,16 +80,28 @@ namespace Agent._4Services
             //WIFI
             performanceCounterCategory = new PerformanceCounterCategory("Network Interface");
             //TODO Should not hardcode 16/2/17
-            instance = performanceCounterCategory.GetInstanceNames()[1];
+
+            instance = performanceCounterCategory.GetInstanceNames()[0];
+            instance2 = performanceCounterCategory.GetInstanceNames()[1];
+            System.Diagnostics.Debug.WriteLine("Instance 2"+ instance2);
+
             downloadRate = new PerformanceCounter("Network Interface", "Bytes Received/sec", instance);
             uploadRate = new PerformanceCounter("Network Interface", "Bytes Sent/sec", instance);
             bandwidth = new PerformanceCounter("Network Interface", "Bytes Total/sec", instance);
             packetsReceived = new PerformanceCounter("Network Interface", "Packets Received/sec", instance); ;
             packetsSent = new PerformanceCounter("Network Interface", "Packets Sent/sec", instance); ;
             packets = new PerformanceCounter("Network Interface", "Packets/sec", instance); ;
+
+            downloadRate2 = new PerformanceCounter("Network Interface", "Bytes Received/sec", instance2);
+            uploadRate2 = new PerformanceCounter("Network Interface", "Bytes Sent/sec", instance2);
+            bandwidth2 = new PerformanceCounter("Network Interface", "Bytes Total/sec", instance2);
+            packetsReceived2 = new PerformanceCounter("Network Interface", "Packets Received/sec", instance2); ;
+            packetsSent2 = new PerformanceCounter("Network Interface", "Packets Sent/sec", instance2); ;
+            packets2 = new PerformanceCounter("Network Interface", "Packets/sec", instance2); ;
         }
 
         private TimeSpan time;
+        string date = "";
 
         private List<ProcessData> myList;
         public List<ProcessData> GetProcesses()
@@ -93,21 +114,21 @@ namespace Agent._4Services
                 {
                     if (process.ProcessName != "Idle")
                     {
+                        if (process.StartTime.Day == DateTime.Today.Day)
+                        {
+                            date = "" + process.StartTime.Hour + ":" + process.StartTime.Minute + ":" +
+                                   process.StartTime.Second;
+                        }
+                        else
+                        {
+                            date = "" + process.StartTime;
+                        }
                         myList.Add(new ProcessData()
                         {
                             N = process.ProcessName,
                             M = "" + process.NonpagedSystemMemorySize64,
-                            C = "TEMP",
-                            T = "" + process.StartTime,
-                        });
-                    }
-                    else
-                    {
-                        myList.Add(new ProcessData()
-                        {
-                            N = process.ProcessName,
-                            M = "" + process.NonpagedSystemMemorySize64,
-                            T = "Restricted",
+                            C = "",
+                            T = date,
                         });
                     }
                 }
@@ -129,42 +150,48 @@ namespace Agent._4Services
 
         public string GetPackets()
         {
-            double packetsTotal = Convert.ToDouble(packets.NextValue());
+            double packetsTotal = Convert.ToDouble(packets.NextValue() + packets2.NextValue());
             packetsTotal = Math.Round((packetsTotal), 1);
             return packetsTotal.ToString();
         }
 
         public string GetPacketsReceived()
         {
-            double packets = Convert.ToDouble(packetsReceived.NextValue());
+            double packets = Convert.ToDouble(packetsReceived.NextValue() + packetsReceived2.NextValue());
             packets = Math.Round((packets), 1);
             return packets.ToString();
         }
         public string GetPacketsSent()
         {
-            double packets = Convert.ToDouble(packetsSent.NextValue());
+            double packets = Convert.ToDouble(packetsSent.NextValue() + packetsSent2.NextValue());
             packets = Math.Round((packets), 1);
             return packets.ToString();
         }
 
         public string GetBandwidth()
         {
-            double band = Convert.ToDouble(bandwidth.NextValue());
-            band = Math.Round((band / 1000000), 3);
+            double band = Convert.ToDouble(bandwidth.NextValue() + bandwidth2.NextValue());
+            band = Math.Round((band / 1000000), 6);
             return band.ToString();
         }
 
         public string GetUpload()
         {
             double upload = Convert.ToDouble(uploadRate.NextValue());
-            upload = Math.Round((upload / 1000000), 3);
+            double upload2 = Convert.ToDouble(uploadRate2.NextValue());
+            upload += upload2;
+
+            upload = Math.Round((upload / 1000), 6);
             return upload.ToString();
         }
 
         public string GetDownload()
         {
             double download = Convert.ToDouble(downloadRate.NextValue());
-            download = Math.Round((download / 1000000), 3);
+            double download2 = Convert.ToDouble(downloadRate2.NextValue());
+            download += download2;
+
+            download = Math.Round((download / 1000), 3);
             return download.ToString();
         }
 
