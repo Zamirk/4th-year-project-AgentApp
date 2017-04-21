@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Agent;
+using Agent._2ViewModel;
 using Microsoft.ServiceBus.Messaging;
 using RAT.ZTry;
 
@@ -25,8 +26,6 @@ namespace MyDeviceTest
         static DeviceClient deviceClient;
         private BackgroundWorker worker;
         private bool kill = false;
-        private static string iotHubUri = "ManageIoT2.azure-devices.net";
-        static string deviceKey = "z0InlHLvCuQ7w6H5d0eaC+puTcB9+/Dsi1W/HdlSY4k=";
         private string device = "Device_1";
 
         PerformanceCounters information;
@@ -194,8 +193,8 @@ namespace MyDeviceTest
 
             System.Diagnostics.Debug.WriteLine(""+device);
             kill = false;
-            Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(device, deviceKey));
+            System.Diagnostics.Debug.WriteLine("sss"+ UserData.HostLink + "www"+ UserData.ConnectionCode);
+            deviceClient = DeviceClient.Create(UserData.HostLink, new DeviceAuthenticationWithRegistrySymmetricKey(device, UserData.ConnectionCode));
 
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -139,7 +140,6 @@ namespace Agent._2ViewModel
             ((MainWindow) System.Windows.Application.Current.MainWindow).label3.Visibility = Visibility.Visible;
             ((MainWindow) System.Windows.Application.Current.MainWindow).label4.Visibility = Visibility.Visible;
             ((MainWindow) System.Windows.Application.Current.MainWindow).list.Visibility = Visibility.Visible;
-
         }
 
         public void Logout()
@@ -160,7 +160,7 @@ namespace Agent._2ViewModel
 
         //Checks Login, Changes screen if found
         async void LoginValidate(){
-            if (await azureService.GetLogin(UserName, password))
+           if (await azureService.GetLogin(UserName, password))
             {
                 //Screen Navigation
                 Application.Current.Dispatcher.Invoke(hideElements, DispatcherPriority.ContextIdle);

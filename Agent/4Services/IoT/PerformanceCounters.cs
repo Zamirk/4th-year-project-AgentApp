@@ -171,7 +171,7 @@ namespace Agent._4Services
         public string GetBandwidth()
         {
             double band = Convert.ToDouble(bandwidth.NextValue() + bandwidth2.NextValue());
-            band = Math.Round((band / 1000000), 6);
+            band = Math.Round((band / 1000000), 3);
             return band.ToString();
         }
 
@@ -181,7 +181,7 @@ namespace Agent._4Services
             double upload2 = Convert.ToDouble(uploadRate2.NextValue());
             upload += upload2;
 
-            upload = Math.Round((upload / 1000), 6);
+            upload = Math.Round((upload / 1000000), 3);
             return upload.ToString();
         }
 
@@ -191,7 +191,7 @@ namespace Agent._4Services
             double download2 = Convert.ToDouble(downloadRate2.NextValue());
             download += download2;
 
-            download = Math.Round((download / 1000), 3);
+            download = Math.Round((download / 1000000), 3);
             return download.ToString();
         }
 
