@@ -38,18 +38,18 @@ namespace RAT.ZTry
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("Level 1");
+                //System.Diagnostics.Debug.WriteLine("Level 1");
 
                 loginTable = Client.GetTable<LoginAgent>();
 
-                System.Diagnostics.Debug.WriteLine("Level 2");
+                //System.Diagnostics.Debug.WriteLine("Level 2");
 
                 List<LoginAgent> items = await loginTable
                     .Where(r => r.Username == a)
                     .Where(r => r.Password == b)
                     .ToListAsync();
 
-                System.Diagnostics.Debug.WriteLine("Level 3");
+                //System.Diagnostics.Debug.WriteLine("Level 3");
 
                 items.Add(new LoginAgent() {Password = "Empty", Username = "Empty"});
 
